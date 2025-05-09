@@ -1,24 +1,24 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GenerateurSansIndexeur implements GenerateurDeCandidats {
-    private int differnceDeLongeur;
 
-    public GenerateurSansIndexeur(int differnceDeLongeur) {
-        this.differnceDeLongeur = differnceDeLongeur;
-    }
     public List<Couple> generer(List<Nom> noms1, List<Nom> noms2) {
-        List<Couple> resultats = new ArrayList<>();
+        List<Couple> couples = new ArrayList<>();
 
-        for (Nom n1 : noms1) {
-            int len1 = n1.getNom().length();
-            for (Nom n2 : noms2) {
-                int len2 = n2.getNom().length();
-                if (Math.abs(len1 - len2) <= differnceDeLongeur) {
-                    resultats.add(new Couple(n1, n2));
+        for (Nom nom1 : noms1) {
+            int longueur = nom1.getNom().length();
+            double marge = longueur * 0.2;
+            int min = (int) Math.floor(longueur - marge);
+            int max = (int) Math.ceil(longueur + marge);
+
+            for (Nom nom2 : noms2) {
+                int len = nom2.getNom().length();
+                if (len >= min && len <= max) {
+                    couples.add(new Couple(nom1, nom2));
                 }
             }
         }
-        return resultats;
+
+        return couples;
     }
 }
