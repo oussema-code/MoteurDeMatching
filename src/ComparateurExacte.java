@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class EgaliteExacte implements ComparateurDeChaine {
+public class ComparateurExacte implements ComparateurDeChaine {
 
     public double comparer(Nom nom1, Nom nom2) {
         if (nom1 == null || nom2 == null) {

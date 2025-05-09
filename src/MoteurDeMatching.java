@@ -3,15 +3,20 @@ import java.util.*;
 
 public class MoteurDeMatching {
 	    Selectionneur selectionneur;
-	    ComparateurDeChaine comparateur;
+	    ComparateurLevenshtein comparateur;
 	    GenerateurDeCandidats generateur;
+		IndexeurDictionnaire indexeur;
+		PretraiteurCaractereSpeciaux pretraiteurCaractereSpeciaux;
+
 	    
-	    public MoteurDeMatching(Selectionneur selectionneur , ComparateurDeChaine egalite,GenerateurDeCandidats generateur) {
+	    public MoteurDeMatching(Selectionneur selectionneur , ComparateurLevenshtein egalite,GenerateurDeCandidats generateur,IndexeurDictionnaire indexeur,PretraiteurCaractereSpeciaux pretraiteurCaractereSpeciaux) {
 		    this.selectionneur=selectionneur;
 		    this.comparateur=egalite;
 		    this.generateur=generateur;
+			this.indexeur=indexeur;
+			this.pretraiteurCaractereSpeciaux=pretraiteurCaractereSpeciaux;
 	    }
-		public List<CoupleAvecScore> preparer(List<Couple> L,ComparateurDeChaine e){
+		public List<CoupleAvecScore> preparer(List<Couple> L,ComparateurLevenshtein e){
 			List<CoupleAvecScore> resultat=new ArrayList<>();
 			for(Couple element:L){
 				CoupleAvecScore cas= new CoupleAvecScore(element,e.comparer(element.getNom1(), element.getNom2()));
@@ -23,7 +28,9 @@ public class MoteurDeMatching {
 	    	List<Nom> ListeDeCible=new ArrayList<Nom>();
 			ListeDeCible.add(monNom);
 			List<Nom> resultat= new ArrayList<>();
+			ListeDeNoms=pretraiteurCaractereSpeciaux.traiter(ListeDeNoms);
 			resultat=selectionneur.selectionner(preparer(generateur.generer(ListeDeCible,ListeDeNoms),comparateur))  ;
+
 			return resultat;
 			}
 

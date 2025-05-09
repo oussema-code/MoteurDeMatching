@@ -1,16 +1,23 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.text.Normalizer;
+import java.util.*;
 
 public class PretraiteurCaractereSpeciaux {
-    public List<Nom> traiter(List<Nom> listeDeNom){
-        List<Nom> ListeFiltre = new ArrayList<Nom>();
-        for(Nom nom : listeDeNom){
-            String nomStr = nom.getNom();
-            nomStr = nomStr.replaceAll("[^A-Za-z]", " ");
-            nomStr=nomStr.replaceAll("(?i)\\b(ibn|bn)\\b","ben");
-            Nom nouveauNom=new Nom(nomStr,nom.getId());
-            ListeFiltre.add(nouveauNom);
+
+    public List<Nom> traiter(List<Nom> listeDeNom) {
+        List<Nom> resultat = new ArrayList<>();
+
+        for (Nom nom : listeDeNom) {
+            String nomNettoyer = nettoyerCaractereSpeciaux(nom.getNom());
+            resultat.add(new Nom(nomNettoyer, nom.getId()));
         }
-        return ListeFiltre;
+
+        return resultat;
+    }
+
+    private String nettoyerCaractereSpeciaux(String texte) {
+        // Supprimer les accents (unicode normalization)
+        String normalise = Normalizer.normalize(texte, Normalizer.Form.NFD);
+        return normalise.replaceAll("\\p{M}", "") // supprime les marques diacritiques et les accents
+                .replaceAll("[^a-zA-Z]", ""); // supprime les caractères spéciaux restants
     }
 }
