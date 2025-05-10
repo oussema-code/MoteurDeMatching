@@ -1,7 +1,7 @@
 import java.text.Normalizer;
 import java.util.*;
 
-public class PretraiteurCaractereSpeciaux {
+public class PretraiteurCaractereSpeciaux implements Pretraiteur {
 
     public List<Nom> traiter(List<Nom> listeDeNom) {
         List<Nom> resultat = new ArrayList<>();

@@ -1,47 +1,153 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double s = 0.5;
-        Scanner sc = new Scanner(System.in);
-        PretraiteurCaractereSpeciaux pretraiteur= new PretraiteurCaractereSpeciaux();
-        SelectionneurAvecSeuil selectionneurAvecSeuil = new SelectionneurAvecSeuil(s);
-        ComparateurLevenshtein comparateur = new ComparateurLevenshtein();
-        GenerateurSansIndexeur generateur = new GenerateurSansIndexeur();
-        IndexeurDictionnaire indexeurDictionnaire = new IndexeurDictionnaire();
-        MoteurDeMatching moteurDeMatching = new MoteurDeMatching(selectionneurAvecSeuil, comparateur, generateur,indexeurDictionnaire,pretraiteur);
-        List<Nom> l = new ArrayList<>();
-        Nom name1= new Nom( "ousséma","1");
-        Nom name2= new Nom("ouss@@maaaa","2");
-        Nom name3= new Nom("oussem77aa","3");
-        Nom name4= new Nom("oussem9797a","4");
-        Nom name5= new Nom("ousseffffma","5");
-        Nom name6= new Nom("oussemaaaa","6");
-        Nom name7= new Nom("oussemapp","7");
-        Nom name8= new Nom("oussemamma","8");
-        Nom name9= new Nom("oussema","9");
-        Nom name10= new Nom("oussemaéé","10");
-        Nom name11= new Nom("oussema&&","11");
-        Nom name12= new Nom("oussemaddd","12");
-        l.add(name1);
-        l.add(name2);
-        l.add(name3);
-        l.add(name4);
-        l.add(name5);
-        l.add(name6);
-        l.add(name7);
-        l.add(name8);
-        l.add(name9);
-        l.add(name10);
-        l.add(name11);
-        l.add(name12);
-        Nom cible=new Nom( "oussema","15");
-        List<Nom> resultat = new ArrayList<>();
-        resultat=moteurDeMatching.recherche(cible,l);
-        for (Nom nom : resultat) {
-            System.out.println(nom.getNom());
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Configurer les paramètres :");
+
+        // Choix du prétraiteur
+        System.out.println("1. Choisir les prétraitements :");
+        System.out.println("1. Minuscule seulement");
+        System.out.println("2. Caractere Speciaux");
+        System.out.println("3. Accent + Minuscule");
+        int pretraiteurChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        Pretraiteur pretraiteur;
+        switch (pretraiteurChoice) {
+            case 1 -> pretraiteur = new PretraiteurToMiniscule();
+            case 2 -> pretraiteur = new PretraiteurCaractereSpeciaux();
+
+            default -> {
+                System.out.println("Choix invalide. Utilisation du prétraiteur par défaut.");
+                pretraiteur = new PretraiteurCaractereSpeciaux();
+            }
+        }
+
+        // Choix du comparateur
+        System.out.println("2. Choisir une mesure de comparaison :");
+        System.out.println("1. ComparateurExacte");
+        System.out.println("2. ComparateurJaroWinkler");
+        System.out.println("3. ComparateurLevenshtein");
+        int comparateurChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        ComparateurDeChaine comparateur;
+        switch (comparateurChoice) {
+            case 1 -> comparateur = new ComparateurExacte();
+            case 2 -> comparateur = new ComparateurJaroWinkler();
+            case 3 -> comparateur = new ComparateurLevenshtein();
+            default -> {
+                System.out.println("Choix invalide. Comparateur Levenshtein sélectionné par défaut.");
+                comparateur = new ComparateurLevenshtein();
+            }
+        }
+
+        // Choix du sélectionneur
+        System.out.println("3. Choisir une méthode de sélection :");
+        System.out.println("1. Par seuil");
+        System.out.println("2. Top-N-Meilleur");
+        System.out.println("3. Tous");
+        int selectionneurChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        Selectionneur selectionneur;
+        switch (selectionneurChoice) {
+            case 1 -> {
+                System.out.println("Donner le seuil :");
+                double seuil = scanner.nextDouble();
+                scanner.nextLine();
+                selectionneur = new SelectionneurAvecSeuil(seuil);
+            }
+            case 2 -> {
+                System.out.println("Donner le nombre de résultats N :");
+                int n = scanner.nextInt();
+                scanner.nextLine();
+                selectionneur = new SelectionneurDeNMeilleur(n);
+            }
+            case 3 -> {
+                selectionneur = new SelectionneurTous(); // suppose que cette classe existe
+            }
+            default -> {
+                System.out.println("Choix invalide. Utilisation du sélectionneur par seuil avec seuil = 0.8");
+                selectionneur = new SelectionneurAvecSeuil(0.8);
+            }
+        }
+        System.out.println("4. Choisir le générateur de candidats :");
+        System.out.println("1. Simple");
+        System.out.println("2. Sans indexeur");
+        System.out.println("3. Avec indexeur");
+        int generateurChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        GenerateurDeCandidats generateur;
+        switch (generateurChoice) {
+            case 1 -> generateur = new GenerateurSimple();
+            case 2 -> generateur = new GenerateurSansIndexeur();
+            case 3 -> generateur = new GenerateurAvecIndexeur();
+            default -> {
+                System.out.println("Choix invalide. Générateur avec indexeur sélectionné par défaut.");
+                generateur = new GenerateurAvecIndexeur();
+            }
+        }
+
+
+        IndexeurDictionnaire indexeur = new IndexeurDictionnaire();
+
+        MoteurDeMatching moteur = new MoteurDeMatching(selectionneur,  comparateur, generateur, indexeur,  pretraiteur);
+
+        while (true) {
+            System.out.println("\nMenu :");
+            System.out.println("1. Effectuer une recherche");
+            System.out.println("2. Comparer deux listes");
+            System.out.println("3. Dédupliquer une liste");
+            System.out.println("4. Quitter");
+            int choix = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choix) {
+                case 1 -> {
+                    System.out.println("Saisir le nom à rechercher :");
+                    String nom = scanner.nextLine();
+                    System.out.println("Fournir le fichier CSV :");
+                    String fichier = scanner.nextLine();
+                    Nom nomRecherche = new Nom(nom, "0");
+                    DataImporter importer = new LocalCSVDataImporter(fichier);
+                    List<Nom> liste = importer.ImportData();
+                    List<Nom> resultats = moteur.recherche(nomRecherche, liste);
+                    resultats.forEach(System.out::println);
+                }
+                case 2 -> {
+                    System.out.println("Fournir le premier fichier :");
+                    String fichier1 = scanner.nextLine();
+                    System.out.println("Fournir le second fichier :");
+                    String fichier2 = scanner.nextLine();
+                    DataImporter importer1 = new LocalCSVDataImporter(fichier1);
+                    DataImporter importer2 = new LocalCSVDataImporter(fichier2);
+                    List<Nom> liste1 = importer1.ImportData();
+                    List<Nom> liste2 = importer2.ImportData();
+                    List<Nom> resultats = moteur.comparer(liste1, liste2);
+                    resultats.forEach(System.out::println);
+                }
+                /*
+                case 3 -> {
+                    System.out.println("Fournir le fichier à traiter :");
+                    String fichier = scanner.nextLine();
+                    DataImporter importer = new LocalCSVDataImporter(fichier);
+                    List<Nom> liste = importer.ImportData();
+                    List<Nom> resultats = moteur.dedupliquer(liste);
+                    resultats.forEach(System.out::println);
+                }
+
+                 */
+                case 4 -> {
+                    System.out.println("Au revoir !");
+                    return;
+                }
+                default -> System.out.println("Choix invalide.");
+            }
         }
     }
 }

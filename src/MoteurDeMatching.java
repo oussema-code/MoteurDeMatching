@@ -3,20 +3,20 @@ import java.util.*;
 
 public class MoteurDeMatching {
 	    Selectionneur selectionneur;
-	    ComparateurLevenshtein comparateur;
+	    ComparateurDeChaine comparateur;
 	    GenerateurDeCandidats generateur;
-		IndexeurDictionnaire indexeur;
-		PretraiteurCaractereSpeciaux pretraiteurCaractereSpeciaux;
+		Indexeur indexeur;
+		Pretraiteur pretraiteur;
 
 	    
-	    public MoteurDeMatching(Selectionneur selectionneur , ComparateurLevenshtein egalite,GenerateurDeCandidats generateur,IndexeurDictionnaire indexeur,PretraiteurCaractereSpeciaux pretraiteurCaractereSpeciaux) {
+	    public MoteurDeMatching(Selectionneur selectionneur , ComparateurDeChaine comparateur,GenerateurDeCandidats generateur,Indexeur indexeur,Pretraiteur pretraiteur) {
 		    this.selectionneur=selectionneur;
-		    this.comparateur=egalite;
+		    this.comparateur=comparateur;
 		    this.generateur=generateur;
 			this.indexeur=indexeur;
-			this.pretraiteurCaractereSpeciaux=pretraiteurCaractereSpeciaux;
+			this.pretraiteur=pretraiteur;
 	    }
-		public List<CoupleAvecScore> preparer(List<Couple> L,ComparateurLevenshtein e){
+		public List<CoupleAvecScore> preparer(List<Couple> L,ComparateurDeChaine e){
 			List<CoupleAvecScore> resultat=new ArrayList<>();
 			for(Couple element:L){
 				CoupleAvecScore cas= new CoupleAvecScore(element,e.comparer(element.getNom1(), element.getNom2()));
@@ -28,11 +28,18 @@ public class MoteurDeMatching {
 	    	List<Nom> ListeDeCible=new ArrayList<Nom>();
 			ListeDeCible.add(monNom);
 			List<Nom> resultat= new ArrayList<>();
-			ListeDeNoms=pretraiteurCaractereSpeciaux.traiter(ListeDeNoms);
+			ListeDeNoms=pretraiteur.traiter(ListeDeNoms);
 			resultat=selectionneur.selectionner(preparer(generateur.generer(ListeDeCible,ListeDeNoms),comparateur))  ;
 
 			return resultat;
 			}
+		public List<Nom> comparer(List<Nom> ListeDeNoms,List<Nom> ListeDeNoms1) {
+			List<Nom> resultat= new ArrayList<>();
+			ListeDeNoms1=pretraiteur.traiter(ListeDeNoms1);
+			ListeDeNoms=pretraiteur.traiter(ListeDeNoms);
+			resultat=selectionneur.selectionner(preparer(generateur.generer(ListeDeNoms,ListeDeNoms1),comparateur))  ;
+			return resultat;
+		}
 
 
 
