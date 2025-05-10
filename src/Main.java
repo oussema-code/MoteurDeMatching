@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
 
         System.out.println("Configurer les paramètres :");
 
@@ -68,7 +68,7 @@ public class Main {
                 selectionneur = new SelectionneurDeNMeilleur(n);
             }
             case 3 -> {
-                selectionneur = new SelectionneurTous(); // suppose que cette classe existe
+                selectionneur = new SelectionneurTous();
             }
             default -> {
                 System.out.println("Choix invalide. Utilisation du sélectionneur par seuil avec seuil = 0.8");

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionneurAvecSeuil implements Selectionneur {
-    private double seuil;
+    private final double  seuil;
     public SelectionneurAvecSeuil(double seuil) {
         this.seuil = seuil;
     }
