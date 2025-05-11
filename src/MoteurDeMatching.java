@@ -40,6 +40,18 @@ public class MoteurDeMatching {
 			resultat=selectionneur.selectionner(preparer(generateur.generer(ListeDeNoms,ListeDeNoms1),comparateur))  ;
 			return resultat;
 		}
+		public List<Nom> dedupliquer(List<Nom> ListeDeNoms,List<Nom> ListeDeNoms1) {
+			List<Nom> resultat= new ArrayList<>();
+			List<Nom> lesNomsARetirer=new ArrayList<>();
+			ListeDeNoms=pretraiteur.traiter(ListeDeNoms);
+			ListeDeNoms1=pretraiteur.traiter(ListeDeNoms1);
+			resultat.addAll(ListeDeNoms);
+			resultat.addAll(ListeDeNoms1);
+			lesNomsARetirer=comparer(ListeDeNoms,ListeDeNoms1);
+			boolean b=resultat.removeAll(lesNomsARetirer);
+			System.out.println(b);
+			return resultat;
+		}
 
 
 

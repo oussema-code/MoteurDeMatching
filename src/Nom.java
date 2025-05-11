@@ -21,5 +21,15 @@ public class Nom {
     public String toString() {
         return "Nom{id=" + id + ", nom='" + name + "'}";
     }
-    
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Nom nom = (Nom) o;
+        return name.equalsIgnoreCase(nom.name);
+    }
+    public int hashCode() {
+        return name.toLowerCase().hashCode();
+    }
+
+
 }

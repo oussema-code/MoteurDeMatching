@@ -11,7 +11,7 @@ public class Main {
         System.out.println("1. Choisir les prétraitements :");
         System.out.println("1. Minuscule seulement");
         System.out.println("2. Caractere Speciaux");
-        System.out.println("3. Accent + Minuscule");
+        System.out.println("3. Ben Standardizer");
         int pretraiteurChoice = scanner.nextInt();
         scanner.nextLine();
 
@@ -19,6 +19,7 @@ public class Main {
         switch (pretraiteurChoice) {
             case 1 -> pretraiteur = new PretraiteurToMiniscule();
             case 2 -> pretraiteur = new PretraiteurCaractereSpeciaux();
+            case 3 -> pretraiteur = new PretraiteurBenStandardizer();
 
             default -> {
                 System.out.println("Choix invalide. Utilisation du prétraiteur par défaut.");
@@ -116,8 +117,13 @@ public class Main {
                     Nom nomRecherche = new Nom(nom, "0");
                     DataImporter importer = new LocalCSVDataImporter(fichier);
                     List<Nom> liste = importer.ImportData();
+                    long startTime=System.nanoTime();
                     List<Nom> resultats = moteur.recherche(nomRecherche, liste);
+                    long endTime = System.nanoTime();
+                    long duration = endTime - startTime;
                     resultats.forEach(System.out::println);
+                    System.out.println("Execution time in milliseconds: " + (duration / 1000000));
+
                 }
                 case 2 -> {
                     System.out.println("Fournir le premier fichier :");
@@ -128,20 +134,29 @@ public class Main {
                     DataImporter importer2 = new LocalCSVDataImporter(fichier2);
                     List<Nom> liste1 = importer1.ImportData();
                     List<Nom> liste2 = importer2.ImportData();
+                    long startTime=System.nanoTime();
                     List<Nom> resultats = moteur.comparer(liste1, liste2);
                     resultats.forEach(System.out::println);
+                    long endTime = System.nanoTime();
+                    long duration = endTime - startTime;
+                    System.out.println("Execution time in milliseconds: " + (duration / 1_000_000));
                 }
-                /*
                 case 3 -> {
-                    System.out.println("Fournir le fichier à traiter :");
-                    String fichier = scanner.nextLine();
-                    DataImporter importer = new LocalCSVDataImporter(fichier);
-                    List<Nom> liste = importer.ImportData();
-                    List<Nom> resultats = moteur.dedupliquer(liste);
+                    System.out.println("Fournir le premier fichier :");
+                    String fichier1 = scanner.nextLine();
+                    System.out.println("Fournir le second fichier :");
+                    String fichier2 = scanner.nextLine();
+                    DataImporter importer1 = new LocalCSVDataImporter(fichier1);
+                    DataImporter importer2 = new LocalCSVDataImporter(fichier2);
+                    List<Nom> liste1 = importer1.ImportData();
+                    List<Nom> liste2 = importer2.ImportData();
+                    long startTime=System.nanoTime();
+                    List<Nom> resultats = moteur.dedupliquer(liste1, liste2);
                     resultats.forEach(System.out::println);
+                    long endTime = System.nanoTime();
+                    long duration = endTime - startTime;
+                    System.out.println("Execution time in milliseconds: " + (duration / 1_000_000));
                 }
-
-                 */
                 case 4 -> {
                     System.out.println("Au revoir !");
                     return;
