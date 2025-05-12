@@ -30,6 +30,4 @@ public class Nom {
     public int hashCode() {
         return name.toLowerCase().hashCode();
     }
-
-
 }

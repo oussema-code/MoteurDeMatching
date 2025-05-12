@@ -48,11 +48,7 @@ public class MoteurDeMatching {
 			resultat.addAll(ListeDeNoms);
 			resultat.addAll(ListeDeNoms1);
 			lesNomsARetirer=comparer(ListeDeNoms,ListeDeNoms1);
-			boolean b=resultat.removeAll(lesNomsARetirer);
-			System.out.println(b);
+			resultat.removeAll(lesNomsARetirer);
 			return resultat;
 		}
-
-
-
 }

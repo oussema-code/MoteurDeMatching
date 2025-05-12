@@ -15,5 +15,6 @@ public class CoupleAvecScore implements Comparable<CoupleAvecScore> {
     public int compareTo(CoupleAvecScore other) {
         // Descending order: high score comes first
         return Double.compare(other.score, this.score);
+
     }
 }
