@@ -9,6 +9,7 @@ public class PretraiteurCaractereSpeciaux implements Pretraiteur {
         for (Nom nom : listeDeNom) {
             String nomNettoyer = nettoyerCaractereSpeciaux(nom.getNom());
             resultat.add(new Nom(nomNettoyer, nom.getId()));
+
         }
         return resultat;
     }

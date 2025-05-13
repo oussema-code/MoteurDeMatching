@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class GenerateurAvecIndexeur implements GenerateurDeCandidats {
-
     public List<Couple> generer(List<Nom> noms1, List<Nom> noms2) {
         List<Couple> couples = new ArrayList<>();
         IndexeurDictionnaire indexeur = new IndexeurDictionnaire();
