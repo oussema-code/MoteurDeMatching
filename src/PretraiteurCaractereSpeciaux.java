@@ -3,15 +3,16 @@ import java.util.*;
 
 public class PretraiteurCaractereSpeciaux implements Pretraiteur {
 
-    public List<Nom> traiter(List<Nom> listeDeNom) {
+    public void traiter(List<Nom> listeDeNom) {
         List<Nom> resultat = new ArrayList<>();
 
         for (Nom nom : listeDeNom) {
             String nomNettoyer = nettoyerCaractereSpeciaux(nom.getNom());
             resultat.add(new Nom(nomNettoyer, nom.getId()));
+            nom.setNom(nomNettoyer);
 
         }
-        return resultat;
+
     }
 
     private String nettoyerCaractereSpeciaux(String texte) {

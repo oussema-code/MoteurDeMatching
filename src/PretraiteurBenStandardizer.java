@@ -1,15 +1,16 @@
 import java.util.*;
 
 public class PretraiteurBenStandardizer implements Pretraiteur {
-    public List<Nom> traiter(List<Nom> noms) {
+    public void traiter(List<Nom> noms) {
         List<Nom> resultat = new ArrayList<>();
 
         for (Nom nom : noms) {
             String nomNettoye = standardiserBen(nom.getNom());
             resultat.add(new Nom(nomNettoye, nom.getId()));
+            nom.setNom(nomNettoye);
         }
 
-        return resultat;
+
     }
 
     private String standardiserBen(String nom) {

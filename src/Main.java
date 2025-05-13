@@ -142,16 +142,12 @@ public class Main {
                     System.out.println("Execution time in milliseconds: " + (duration / 1_000_000));
                 }
                 case 3 -> {
-                    System.out.println("Fournir le premier fichier :");
+                    System.out.println("Fournir le fichier CSV :");
                     String fichier1 = scanner.nextLine();
-                    System.out.println("Fournir le second fichier :");
-                    String fichier2 = scanner.nextLine();
                     DataImporter importer1 = new LocalCSVDataImporter(fichier1);
-                    DataImporter importer2 = new LocalCSVDataImporter(fichier2);
                     List<Nom> liste1 = importer1.ImportData();
-                    List<Nom> liste2 = importer2.ImportData();
                     long startTime=System.nanoTime();
-                    List<Nom> resultats = moteur.dedupliquer(liste1, liste2);
+                    List<Nom> resultats = moteur.dedupliquer(liste1);
                     resultats.forEach(System.out::println);
                     long endTime = System.nanoTime();
                     long duration = endTime - startTime;
