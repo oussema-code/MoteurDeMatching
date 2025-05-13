@@ -10,7 +10,7 @@ public class LocalCSVDataImporter implements DataImporter {
     public LocalCSVDataImporter(String filePath) {
         this.filePath = filePath;
     }
-    public List<Nom> ImportData() {
+    public List<Nom> importData() {
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             return lines.skip(1) // Skip the header line
                     .map(line -> line.split(","))

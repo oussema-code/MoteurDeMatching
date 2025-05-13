@@ -1,6 +1,6 @@
 import java.util.List;
 
 public interface DataImporter {
-	List<Nom> ImportData();
+	List<Nom> importData();
 }
  

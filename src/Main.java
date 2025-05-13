@@ -116,7 +116,7 @@ public class Main {
                     String fichier = scanner.nextLine();
                     Nom nomRecherche = new Nom(nom, "0");
                     DataImporter importer = new LocalCSVDataImporter(fichier);
-                    List<Nom> liste = importer.ImportData();
+                    List<Nom> liste = importer.importData();
                     long startTime=System.nanoTime();
                     List<Nom> resultats = moteur.recherche(nomRecherche, liste);
                     long endTime = System.nanoTime();
@@ -132,8 +132,8 @@ public class Main {
                     String fichier2 = scanner.nextLine();
                     DataImporter importer1 = new LocalCSVDataImporter(fichier1);
                     DataImporter importer2 = new LocalCSVDataImporter(fichier2);
-                    List<Nom> liste1 = importer1.ImportData();
-                    List<Nom> liste2 = importer2.ImportData();
+                    List<Nom> liste1 = importer1.importData();
+                    List<Nom> liste2 = importer2.importData();
                     long startTime=System.nanoTime();
                     List<Nom> resultats = moteur.comparer(liste1, liste2);
                     resultats.forEach(System.out::println);
@@ -145,7 +145,7 @@ public class Main {
                     System.out.println("Fournir le fichier CSV :");
                     String fichier1 = scanner.nextLine();
                     DataImporter importer1 = new LocalCSVDataImporter(fichier1);
-                    List<Nom> liste1 = importer1.ImportData();
+                    List<Nom> liste1 = importer1.importData();
                     long startTime=System.nanoTime();
                     List<Nom> resultats = moteur.dedupliquer(liste1);
                     resultats.forEach(System.out::println);
