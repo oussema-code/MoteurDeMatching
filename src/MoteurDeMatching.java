@@ -1,6 +1,4 @@
 import java.util.*;
-
-
 public class MoteurDeMatching {
 	    Selectionneur selectionneur;
 	    ComparateurDeChaine comparateur;
@@ -51,5 +49,4 @@ public class MoteurDeMatching {
 
 		return ListeOriginale;
 	}
-
 }

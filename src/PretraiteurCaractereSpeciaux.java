@@ -14,7 +14,6 @@ public class PretraiteurCaractereSpeciaux implements Pretraiteur {
         }
 
     }
-
     private String nettoyerCaractereSpeciaux(String texte) {
         // Supprimer les accents (unicode normalization)
         String normalise = Normalizer.normalize(texte, Normalizer.Form.NFD);

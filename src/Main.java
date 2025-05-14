@@ -107,7 +107,6 @@ public class Main {
             System.out.println("4. Quitter");
             int choix = scanner.nextInt();
             scanner.nextLine();
-
             switch (choix) {
                 case 1 -> {
                     System.out.println("Saisir le nom à rechercher :");
